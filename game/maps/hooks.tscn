@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://sprites/blahaj.png" type="Texture" id=1]
 [ext_resource path="res://scripts/blahaj.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://maps/Boats.gd" type="Script" id=8]
 [ext_resource path="res://music/background_theme.wav" type="AudioStream" id=9]
 [ext_resource path="res://scripts/sound.gd" type="Script" id=10]
+[ext_resource path="res://scenes/Hook.tscn" type="PackedScene" id=11]
 
 [sub_resource type="RectangleShape2D" id=2]
 
@@ -54,6 +55,8 @@ position = Vector2( 1014, 242 )
 scale = Vector2( 0.499309, 0.501875 )
 texture = ExtResource( 3 )
 
+[node name="Hook" parent="." instance=ExtResource( 11 )]
+
 [node name="Boats" type="Node2D" parent="."]
 script = ExtResource( 8 )
 
@@ -89,6 +92,12 @@ offset = Vector2( 0, 50 )
 current = true
 script = ExtResource( 4 )
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = 1.0
+autoplay = true
+script = ExtResource( 10 )
+
 [node name="blahaj" type="KinematicBody2D" parent="."]
 position = Vector2( 400, 250 )
 script = ExtResource( 2 )
@@ -101,11 +110,6 @@ texture = ExtResource( 1 )
 position = Vector2( 0, 4 )
 rotation = 1.5708
 shape = SubResource( 1 )
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 9 )
-autoplay = true
-script = ExtResource( 10 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

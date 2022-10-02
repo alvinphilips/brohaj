@@ -5,6 +5,7 @@ extends KinematicBody2D
 # var a = 2
 # var b = "text"
 
+signal caught
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,7 +15,12 @@ var move = Vector2()
 const HORIZONTAL_MOVEMENT_SPEED = 1000.0
 const VERTICAL_MOVEMENT_SPEED = 400.0
 
+var isCaught = false
+
 func _physics_process(delta):
+	if isCaught:
+		return
+		
 	move -= move * 0.05
 	
 	if Input.is_action_pressed("ui_up"):
@@ -26,6 +32,11 @@ func _physics_process(delta):
 	if Input.is_action_pressed("ui_left"):
 		move.x -= HORIZONTAL_MOVEMENT_SPEED * delta
 	
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	if isCaught:
+		position.y = clamp(lerp(position.y, position.y - 4, 0.5), 40, 600)
+		return
 	# Small hack to flip image based on movement direction
 	#
 	# flip_h requires a floar, so we first subtract 1 from (-1, 1) to get
@@ -37,6 +48,11 @@ func _physics_process(delta):
 	$Sprite.flip_h = abs((sign(move.x) - 1.0) * 0.5)
 
 	move = move_and_slide(move, Vector2.UP)
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	
+func on_damage(arg):
+	if arg.name != "blahaj" or isCaught:
+		return
+	emit_signal("caught")
+	isCaught = true
+	translate(Vector2(-60, -10))
+	rotate(20)
