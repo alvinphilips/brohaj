@@ -18,11 +18,12 @@ const VERTICAL_MOVEMENT_SPEED = 400.0
 var isCaught = false
 
 func _physics_process(delta):
+	if Input.is_action_just_pressed("restart"):
+		get_tree().reload_current_scene()
 	if isCaught:
 		return
 		
 	move -= move * 0.05
-	
 	if Input.is_action_pressed("ui_up"):
 		move.y -= VERTICAL_MOVEMENT_SPEED * delta
 	if Input.is_action_pressed("ui_down"):
